@@ -36,10 +36,35 @@ def build_o365_raw(image_set, args, resolution):
     except:
         square_resize_div_64 = False
 
+    patch_size = getattr(args, "patch_size", 16)
+    num_windows = getattr(args, "num_windows", 4)
+
     if square_resize_div_64:
-        dataset = CocoDetection(img_folder, ann_file, transforms=make_coco_transforms_square_div_64(image_set, resolution, multi_scale=args.multi_scale, expanded_scales=args.expanded_scales))
+        dataset = CocoDetection(
+            img_folder,
+            ann_file,
+            transforms=make_coco_transforms_square_div_64(
+                image_set,
+                resolution,
+                multi_scale=args.multi_scale,
+                expanded_scales=args.expanded_scales,
+                patch_size=patch_size,
+                num_windows=num_windows,
+            ),
+        )
     else:
-        dataset = CocoDetection(img_folder, ann_file, transforms=make_coco_transforms(image_set, resolution, multi_scale=args.multi_scale, expanded_scales=args.expanded_scales))
+        dataset = CocoDetection(
+            img_folder,
+            ann_file,
+            transforms=make_coco_transforms(
+                image_set,
+                resolution,
+                multi_scale=args.multi_scale,
+                expanded_scales=args.expanded_scales,
+                patch_size=patch_size,
+                num_windows=num_windows,
+            ),
+        )
     return dataset
 
 

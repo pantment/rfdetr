@@ -27,7 +27,8 @@ import pycocotools.mask as coco_mask
 
 import rfdetr.datasets.transforms as T
 
-from rfdetr.datasets.transforms import build_albumentations_from_config, ComposeAugmentations
+from rfdetr.datasets.transforms import ComposeAugmentations
+from rfdetr.datasets.albumentations_transforms import build_albumentations_from_config
 from rfdetr.augmentation_config import AUG_CONFIG
 
 
@@ -201,7 +202,7 @@ class ConvertCoco(object):
         return image, target
 
 
-def make_coco_transforms(image_set, resolution, multi_scale=False, expanded_scales=False):
+def make_coco_transforms(image_set, resolution, multi_scale=False, expanded_scales=False, patch_size=16, num_windows=4, skip_random_resize=False):
     normalize = T.Compose([
         T.ToTensor(),
         T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
